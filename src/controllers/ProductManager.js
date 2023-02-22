@@ -49,11 +49,17 @@ export class ProductManager {
         } else {
             if (imgPath) {
                 product.thumbnail = imgPath;
-            }            
-            const nuevoProducto = {id: Product.addId(), ...product};
+            } else {
+                imgPath = []
+                product.thumbnail = imgPath;
+            }         
+        let newId;
+        !data.length ? (newId = 1) : (newId = data[data.length - 1].id + 1);       
+            const nuevoProducto = {id: newId(), ...product};
             data.push(nuevoProducto);
             await fs.writeFile(this.path, JSON.stringify(data), 'utf-8')
-            return console.log(`El producto con id: ${nuevoProducto.id} ha sido agregado.`) 
+            console.log(`El producto con id: ${nuevoProducto.id} ha sido agregado.`) 
+            return newId
         }
     }
 
